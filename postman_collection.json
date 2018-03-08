@@ -1,0 +1,1473 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Tech Radar APIs",
+		"_postman_id": "770acd57-10b3-5063-4178-f246abe43424",
+		"description": "An API serving the Kenzan BadgeBoard for developers and skills",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "session",
+			"description": "Folder for session",
+			"item": [
+				{
+					"name": "CORS Preflight Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/session/login",
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Origin",
+								"value": "http://skills.kenzan.com:3000",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type, Authorization",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "POST",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Pass CORS headers back to fetch API on preflight request.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Authentication Login tester",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", data.token);",
+									"",
+									"tests [\"Successful POST request\"] = responseCode.code === 200;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/session/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": {\"username\": \"{{username-test}}\", \"password\": \"{{password-test}}\"}}"
+						},
+						"description": "Logs a user into the badge board using Kenzan's LDAP server\n"
+					},
+					"response": []
+				},
+				{
+					"name": "CORS Preflight Check Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/session/user",
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Origin",
+								"value": "http://skills.kenzan.com:3000",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type, Authorization",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "POST",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Pass CORS headers back to fetch API on preflight request.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Session Validation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests [\"Successful POST request\"] = responseCode.code === 200;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/session/user",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"authorizationToken\":\"{{token}}\"}"
+						},
+						"description": "Takes an incoming jwt token passed in the body and validates it. If valid, the user information from the token is passed back to the client.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "CORS Preflight Logout",
+					"request": {
+						"url": "https://skills-api.kenzan.com/session/logout",
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Origin",
+								"value": "http://skills.kenzan.com:3000",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type, Authorization",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "POST",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Pass CORS headers back to fetch API on preflight request.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Authentication Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/session/logout",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Sends an invalid JWT token to the client so that their current session is invalidated.\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "persons",
+			"description": "Folder for persons",
+			"item": [
+				{
+					"name": "CORS Preflight All Persons",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/persons",
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Origin",
+								"value": "http://skills.kenzan.com:3000",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "POST,GET,OPTIONS",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Pass CORS headers back to fetch API on preflight request.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Display All Persons",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/persons",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Pass CORS headers back to fetch API on preflight request.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Display Persons sorted by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://skills-api.kenzan.com/persons?sort=id",
+							"protocol": "https",
+							"host": [
+								"skills-api",
+								"kenzan",
+								"com"
+							],
+							"path": [
+								"persons"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Persons endpoint returns information about all the people at Kenzan. The response includes the person's name, skills, and contact information.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Display Persons sorted by Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://skills-api.kenzan.com/persons?sort=Name",
+							"protocol": "https",
+							"host": [
+								"skills-api",
+								"kenzan",
+								"com"
+							],
+							"path": [
+								"persons"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "Name",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Persons endpoint returns information about all the people at Kenzan. The response includes the person's name, skills, and contact information.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Display Persons by all params",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://skills-api.kenzan.com/persons?sort=id&order=ASC&excludedPersons={{personId}}&skill_Java=1&intersection=true",
+							"protocol": "https",
+							"host": [
+								"skills-api",
+								"kenzan",
+								"com"
+							],
+							"path": [
+								"persons"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "order",
+									"value": "ASC",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "excludedPersons",
+									"value": "{{personId}}",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "skill_Java",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "intersection",
+									"value": "true",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Persons endpoint returns information about all the people at Kenzan. The response includes the person's name, skills, and contact information.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Person",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"sampleId\", data.id);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/persons",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Name\": \"John Papa\",\n  \"id\": 190,\n  \"skills\": {\n    \"skillName\": abc\n  }\n}"
+						},
+						"description": "Pass CORS headers back to fetch API on preflight request.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "CORS Preflight Person Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/persons/{{personID}}",
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Origin",
+								"value": "http://skills.kenzan.com:3000",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type, Authorization",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "GET,DELETE,PUT,OPTIONS",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Persons endpoint with a user id parameter returns information one person at Kenzan. The response includes the person's name, skills, and contact information.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "GET Person",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/persons/{{sampleId}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Persons endpoint with a user id parameter returns information one person at Kenzan. The response includes the person's name, skills, and contact information.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Person - WIP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//currently returns 500 due to inactive service",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/persons/{{sampleId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Persons endpoint with a user id parameter returns information one person at Kenzan. A put request will update the selected user's information.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Person",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/persons/{{sampleId}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Persons endpoint with a user id parameter returns information one person at Kenzan. A put request will update the selected user's information.\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "skills",
+			"description": "Folder for skills",
+			"item": [
+				{
+					"name": "CORS Preflight All Skills",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/skills",
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Origin",
+								"value": "http://skills.kenzan.com:3000",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,Authorization",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "GET,POST,OPTIONS",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Skills endpoint returns information about all the relevant skills at Kenzan. The response includes the skill names, descriptions, and various other data.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Display All Skills Description",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/skills",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Skills endpoint returns information about all the relevant skills at Kenzan. The response includes the skill names, descriptions, and various other data.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Display Skills sortByName Ascending - WIP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://skills-api.kenzan.com/skills?sort=Name&order=ASC",
+							"protocol": "https",
+							"host": [
+								"skills-api",
+								"kenzan",
+								"com"
+							],
+							"path": [
+								"skills"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "Name",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "order",
+									"value": "ASC",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Skills endpoint returns information about all the relevant skills at Kenzan. The response includes the skill names, descriptions, and various other data.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Display Skills sortByName Descending - WIP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://skills-api.kenzan.com/skills?sort=Name&order=DESC",
+							"protocol": "https",
+							"host": [
+								"skills-api",
+								"kenzan",
+								"com"
+							],
+							"path": [
+								"skills"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "Name",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "order",
+									"value": "DESC",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Skills endpoint returns information about all the relevant skills at Kenzan. The response includes the skill names, descriptions, and various other data.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"newSkillId\", data.id);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/skills",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Skill Foo\",\r\n  \"id\": 0,\r\n  \"bodyContent\": \"<body>HTML Content Here</body>\",\r\n  \"version\": \"1.0.0\",\r\n  \"sourceLink\": \"https://projects.kenzan.com/confluence/pages/viewpage.action?pageId=foobar\",\r\n  \"placements\": [\r\n    {\r\n      \"description\": \"Some description here.\",\r\n      \"since\": 1493399810,\r\n      \"coordinates\": {\r\n        \"angle\": 90,\r\n        \"radius\": 100\r\n      }\r\n    }\r\n  ],\r\n  \"stats\": {\r\n    \"proficientUsers\": 5,\r\n    \"beginners\": 3,\r\n    \"novices\": 1,\r\n    \"intermediates\": 2,\r\n    \"experts\": 3\r\n  },\r\n  \"distinguished\": 1,\r\n  \"status\": \"needs review\",\r\n  \"lastUpdatedDate\": 1506439166546,\r\n  \"createdDate\": 1483246800000,\r\n  \"isNew\": true,\r\n  \"priority\": false,\r\n  \"resources\": \"https://foo.io/docs\"\r\n}"
+						},
+						"description": "The Skills endpoint returns information about all the relevant skills at Kenzan. A post to the skills endpoint will add a new skills to the Kenzan skills database.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "CORS Preflight Single Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/skills/{{personID}}",
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Origin",
+								"value": "http://skills.kenzan.com:3000",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,Authorization",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "GET,PUT,DELETE,OPTIONS",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Pass CORS headers back to fetch API on preflight request.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Display a Single Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/skills/{{newSkillId}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Skills endpoint returns information about all the relevant skills at Kenzan. The response includes a single skills's name, description, and other information.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Skill Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/skills/{{newSkillId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Skills endpoint returns information about all the relevant skills at Kenzan. A put request will update the selected skills's information.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Single Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/skills/{{newSkillId}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "The Skills endpoint returns information about all the relevant skills at Kenzan. A delete request will delete the selected user.\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "techRadar",
+			"description": "A collection of techradar endpoints/calls ",
+			"item": [
+				{
+					"name": "CORS Preflight TechRadar information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/techRadar",
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Origin",
+								"value": "http://skills.kenzan.com:3000",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "POST,GET,OPTIONS",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "The Tech Radar endpoint returns information about the different tech radars that have been created. A get response will include the radar names, quadrants, skills, etc."
+					},
+					"response": []
+				},
+				{
+					"name": "Display TechRadar information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://skills-api.kenzan.com/techRadar?sort=Name&ordre=ASC",
+							"protocol": "https",
+							"host": [
+								"skills-api",
+								"kenzan",
+								"com"
+							],
+							"path": [
+								"techRadar"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "Name",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "ordre",
+									"value": "ASC",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "The Tech Radar endpoint returns information about the different tech radars that have been created. A get response will include the radar names, quadrants, skills, etc."
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new TechRadar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/techRadar",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 10,\r\n  \"nameString\": \"Radar One\",\r\n  \"creatorString\": \"Radar Creator\",\r\n  \"lastUpdated\": 11,\r\n  \"skills\": [\r\n    {\r\n      \"id\": 12,\r\n      \"skill\": 13,\r\n      \"priority\": true,\r\n      \"radius\": 14,\r\n      \"angle\": 15,\r\n      \"lastUpdated\": 16\r\n    }\r\n  ],\r\n  \"quadrants\": [\r\n    \"Quadrant1 Quadrant2\"\r\n  ],\r\n  \"created\": 17\r\n}"
+						},
+						"description": "The Tech Radar endpoint returns information about the different tech radars that have been created. A get response will include the radar names, quadrants, skills, etc."
+					},
+					"response": []
+				},
+				{
+					"name": "CORS Preflight Single TechRadar Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/techRadar/{{personId}}",
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Origin",
+								"value": "http://skills.kenzan.com:3000",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+								"description": ""
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "PUT,GET,DELETE,OPTIONS",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "The Tech Radar endpoint returns information about the different tech radars that have been created. A get response will include the radar names, quadrants, skills, etc."
+					},
+					"response": []
+				},
+				{
+					"name": "Display A Single TechRadar Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://skills-api.kenzan.com/techRadar/{{personId}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "The Tech Radar endpoint returns information about the different tech radars that have been created. A get response will include the radar names, quadrants, skills, etc."
+					},
+					"response": []
+				},
+				{
+					"name": "Update A Selected TechRadar Info",
+					"request": {
+						"url": "https://skills-api.kenzan.com/techRadar/{{personId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Autho",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "The Tech Radar endpoint returns information about the different tech radars that have been created. A get response will include the radar names, quadrants, skills, etc."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete A Selected TechRadar",
+					"request": {
+						"url": "https://skills-api.kenzan.com/techRadar/{{personId}}",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": "The Tech Radar endpoint returns information about the different tech radars that have been created. A get response will include the radar names, quadrants, skills, etc."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
